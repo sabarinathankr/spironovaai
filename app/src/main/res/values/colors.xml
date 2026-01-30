@@ -12,4 +12,10 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
+
+    <color name="color_primary">#00004d</color>
+    <color name="app_bg">#f2f8ff</color>
+    <color name="text_main_clr">#CC00004d</color>
+    <color name="text_sub_clr">#8000004d</color>
+
 </resources>

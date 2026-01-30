@@ -1,6 +1,11 @@
 package com.spironovaai.navigation
 
 object NavRoutes {
+
+    const val SPLASH = "splash"
+    const val REGISTER = "register"
+    const val LOGIN = "login"
+    const val AUTH = "auth"
     const val HOME = "home"
     const val SECOND = "second"
 

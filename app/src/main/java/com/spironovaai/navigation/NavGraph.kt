@@ -2,13 +2,15 @@ package com.spironovaai.navigation
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.spironovaai.HomeViewModel
+import com.spironovaai.ui.screens.AuthScreen
 import com.spironovaai.ui.screens.HomeScreen
 import com.spironovaai.ui.screens.SecondScreen
+import com.spironovaai.ui.screens.SplashScreen
 
 fun NavGraphBuilder.homeRoute(navController: NavHostController) {
 
@@ -26,6 +28,27 @@ fun NavGraphBuilder.homeRoute(navController: NavHostController) {
         )
     }
 }
+
+fun NavGraphBuilder.authScreen(navController: NavHostController) {
+    composable(NavRoutes.AUTH) {
+        AuthScreen()
+    }
+}
+
+fun NavGraphBuilder.splashScreen(navController: NavHostController) {
+
+    composable(NavRoutes.SPLASH) {
+
+        SplashScreen(
+            onNavigateToHome = {
+                navController.navigate(NavRoutes.AUTH) {
+                    popUpTo(NavRoutes.SPLASH) { inclusive = true }
+                }
+            }
+        )
+    }
+}
+
 
 fun NavGraphBuilder.secondRoute(navController: NavHostController) {
 

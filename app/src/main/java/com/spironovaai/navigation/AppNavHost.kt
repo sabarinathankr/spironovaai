@@ -17,15 +17,17 @@ import com.spironovaai.ui.screens.SecondScreen
 fun AppNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    startDestination: String = NavRoutes.HOME
+    startDestination: String = NavRoutes.SPLASH
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        modifier = modifier.fillMaxSize().background(colorResource(R.color.teal_200))
+        modifier = modifier.fillMaxSize().background(colorResource(R.color.white))
     ) {
-        homeRoute(navController)     // ✅
-        secondRoute(navController)   // ✅
+        splashScreen(navController)
+        authScreen(navController)
+        homeRoute(navController)
+        secondRoute(navController)
     }
 }
 
