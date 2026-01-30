@@ -12,8 +12,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,10 +34,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.spironovaai.HomeViewModel
 import com.spironovaai.R
+import com.spironovaai.data.remote.model.UserResponse
 import com.spironovaai.ui.MyButton
 import com.spironovaai.ui.MyEditText
 import com.spironovaai.ui.MyText
+import com.spironovaai.utils.NetworkResult
 
 @Preview(showBackground = false)
 @Composable
@@ -42,11 +50,38 @@ fun AuthPreview() {
 }
 
 @Composable
-fun AuthScreen() {
+fun AuthScreen(viewModel: HomeViewModel = viewModel()) {
 
     var emailText by remember { mutableStateOf(TextFieldValue("")) }
 
     var pwdText by remember { mutableStateOf(TextFieldValue("")) }
+
+    val state by viewModel.userState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchUser("101") // example
+    }
+
+    when (state) {
+
+        is NetworkResult.Loading -> {
+            CircularProgressIndicator()
+        }
+
+        is NetworkResult.Success -> {
+            val user = (state as NetworkResult.Success<UserResponse>).data
+            Column {
+                Text("Name: ${user.name}")
+                Text("Email: ${user.email}")
+            }
+        }
+
+        is NetworkResult.Error -> {
+            val msg = (state as NetworkResult.Error).message
+            Text("Error: $msg", color = Color.Red)
+        }
+    }
+
     Box(
         modifier = Modifier
             .background(colorResource(R.color.app_bg))
@@ -97,7 +132,7 @@ fun AuthScreen() {
                         )
                     ),
                     shape = RoundedCornerShape(26.dp)
-                ), {}, "Verify"
+                ), {}, "Login"
             )
 
             MyText(
